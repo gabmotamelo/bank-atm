@@ -7,26 +7,53 @@ fun main(args: Array<String>) {
     saldo += 300
     saldo -=300
 
-    val contaAlex = Conta()
-    contaAlex.titular = "Gabriel"
-    contaAlex.numero = 23453
+    val contaGabriel = Conta()
+    contaGabriel.titular = "Gabriel"
+    contaGabriel.numero = 23453
+    contaGabriel.deposito( 40.0)
+    contaGabriel.saque(50.0)
+    println(contaGabriel.saldo)
 
-    deposito(contaAlex, 40.0)
+    val contaFran = Conta()
+    contaFran.titular = "Fran"
+    contaFran.numero = 34432
+    contaFran.deposito(22.0)
+    println(contaFran.saldo)
 
-    println(contaAlex.saldo)
+    println("Transferencia Fran - Alex")
+    if (contaFran.tranferencia(10.0, contaGabriel)){
+        println("Tranferencia com sucesso")
+    } else {
+        println("Falha na transferencia")
+    }
 
-
-
+    println(contaFran.saldo)
+    println(contaGabriel.saldo)
 }
 
 class Conta(){
     var titular=""
     var numero = 0
     var saldo = 0.0
-}
+    fun deposito(valor:Double){
+        this.saldo += valor
+    }
+    fun saque(valor: Double){
+        if (saldo >= valor){
+            saldo -= valor
+        } else {
+            println("Operação Negada: Saldo Insuficiente")
+        }
+    }
 
-fun deposito(conta: Conta , valor:Double){
-    conta.saldo += valor
+    fun tranferencia(valor:Double, contaDestino: Conta): Boolean{
+        if (saldo >= valor){
+            saldo -= valor
+            contaDestino.saldo += valor
+            return true
+        }
+        return false
+    }
 }
 
 fun testaCopiasEReferencias(){
